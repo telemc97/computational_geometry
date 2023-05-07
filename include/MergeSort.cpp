@@ -1,11 +1,11 @@
-#include"MergeSort.h"
+#include "MergeSort.h"
 
-void mergeSingleThread(2DPoint points[], const int& left, const int& mid, const int& right){
+void mergeSingleThread(vector<Point2D>& points, const int& left, const int& mid, const int& right){
   int const sub_array_1_size = mid - left + 1;
   int const sub_array_2_size = right - mid;
 
-  2DPoint* left_array = new 2DPoint[sub_array_1_size];
-  2DPoint* right_array = new 2DPoint[sub_array_2_size];
+  Point2D* left_array = new Point2D[sub_array_1_size];
+  Point2D* right_array = new Point2D[sub_array_2_size];
 
   for (int i=0; i<sub_array_1_size; i++){left_array[i]=points[left+i];}
   for (int j=0; j<sub_array_2_size; j++){right_array[j]=points[mid + 1 + j];}
@@ -38,7 +38,7 @@ void mergeSingleThread(2DPoint points[], const int& left, const int& mid, const 
   delete[] right_array;
 }
 
-void mainSortingSingleThread(2DPoint points[], const int& begin, const int& end){
+void mainSortingSingleThread(vector<Point2D>& points, const int& begin, const int& end){
   if (begin >= end)
     return;
   int mid = begin + (end-begin)/2;

@@ -1,7 +1,8 @@
-struct 2DPoint{
+#pragma once
+struct Point2D{
   int x,y;
 };
 
-struct 3DPoint{
+struct Point3D{
   int x,y,z;
 };

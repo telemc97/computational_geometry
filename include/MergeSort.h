@@ -1,7 +1,6 @@
-#include <iostream>
-#include <Point.h>
+#include "Point.h"
 using namespace std;
 
-void mergeSingleThread(2DPoint points[], const int& left, const int& mid, const int& right);
+void mergeSingleThread(vector<Point2D>& points, const int& left, const int& mid, const int& right);
 
-void mainSortingSingleThread(2DPoint points[], const int& begin, const int& end);
+void mainSortingSingleThread(vector<Point2D>& points, const int& begin, const int& end);

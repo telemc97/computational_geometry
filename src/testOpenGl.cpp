@@ -1,20 +1,24 @@
 #include "ProjectHeaders.h"
 
+void printPointArray(vector<Point2D>& points){
+  for(Point2D point : points){
+    cout << '(' << point.x << ',' << point.y << ')';
+  } 
+}
+
 int main(){
   int array_size = rand() % 10 + 10;
-  2DPoint* points = new Point[array_size];
+  vector<Point2D> points;
   for(int i=0; i<array_size; i++){
-    points[i].x = rand() % 100;
-    points[i].y = rand() % 100;
+    points.push_back({rand() % 100, rand() % 100});
   }
-  cout << "\nIntial array is \n";
-  printArray(points, array_size);
+  cout << "\nArray of Points: \n";
+  printPointArray(points);
 
-  mainSortingSingleThread(points, 0, array_size-1);
+  ConvexHull2D convexHull(points);
 
-  cout << "\nSorted array is \n";
-  printArray(points, array_size);
+  vector<Point2D> hull_points = convexHull.getHullPoints();
 
-  delete[] points;
-  return 0;
+  HullOpenGL repre2D(points, hull_points);
+    return 0;
 }

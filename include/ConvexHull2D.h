@@ -1,28 +1,28 @@
 #include <iostream>
 #include "Point.h"
 #include <vector>
-#include <Eigen/Core>
-#include <Eigen/Dense>
+#include <eigen3/Eigen/Dense>
+#include <eigen3/Eigen/Core>
 #include "MergeSort.h" 
 
 using namespace std;
 
 #define INF 10000
-static Point nil = {INF, INF, 0 ,0};
+static Point2D nil = {INF, INF};
 
 class ConvexHull2D{
   public:
-  ConvexHull2D(Point points[]);
+  ConvexHull2D(vector<Point2D> points);
 
-  virtual ~ConvexHull2D();
+  vector<Point2D> getHullPoints();
 
   private:
 
-  Point* _points;
-  int _points_size;
+  vector<Point2D> _points;
+  vector<Point2D> _hull_points;
 
-  int pointsOrientation(Point& pointA, Point& pointB, Point& pointC);
+  int pointsOrientation(Point2D& pointA, Point2D& pointB, Point2D& pointC);
 
-  vector<Point> jarvisAlgorithm(Point _points[]);
+  void jarvisAlgorithm();
 
 };
