@@ -1,6 +1,6 @@
 #include "ConvexHull2D.h"
 
-ConvexHull2D::ConvexHull2D(vector<Point2D> points){
+ConvexHull2D::ConvexHull2D(vector<Point2D>& points){
   for (int i=0;i<points.size();i++){
     _points.push_back(points[i]);
   }

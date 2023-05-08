@@ -19,6 +19,10 @@ int main(){
 
   vector<Point2D> hull_points = convexHull.getHullPoints();
 
-  HullOpenGL repre2D(points, hull_points);
+  ConvexHull2DOpenGL repre2D(points, hull_points);
+  repre2D.setCoordNormValue(70.0f);
+  repre2D.render();
+
+  // HullOpenGL repre2D;
     return 0;
 }

@@ -12,7 +12,7 @@ static Point2D nil = {INF, INF};
 
 class ConvexHull2D{
   public:
-  ConvexHull2D(vector<Point2D> points);
+  ConvexHull2D(vector<Point2D>& points); //Constructor
 
   vector<Point2D> getHullPoints();
 

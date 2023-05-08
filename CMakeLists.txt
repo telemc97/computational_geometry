@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0.2)
 project(computational_geometry)
 
 add_library(ConvexHull2D ${PROJECT_SOURCE_DIR}/include/ConvexHull2D.cpp ${PROJECT_SOURCE_DIR}/include/ConvexHull2D.h)
-add_library(HullOpenGL ${PROJECT_SOURCE_DIR}/include/HullOpenGL.cpp ${PROJECT_SOURCE_DIR}/include/HullOpenGL.h)
+add_library(HullOpenGL ${PROJECT_SOURCE_DIR}/include/ConvexHull2DOpenGL.cpp ${PROJECT_SOURCE_DIR}/include/ConvexHull2DOpenGL.h)
 
 add_subdirectory(libs/eigen)
 
