@@ -32,7 +32,7 @@ ConvexHull2DOpenGL::ConvexHull2DOpenGL(){
 }
 
 ConvexHull2DOpenGL::~ConvexHull2DOpenGL(){
-  if (_GL_window != NULL) delete _GL_window;
+  // if (_GL_window != NULL) delete _GL_window;
 }
 
 void ConvexHull2DOpenGL::render(){
