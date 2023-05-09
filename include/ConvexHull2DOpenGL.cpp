@@ -5,30 +5,31 @@ ConvexHull2DOpenGL::ConvexHull2DOpenGL(vector<Point2D>& points, vector<Point2D>&
     _points.push_back(points[i]);
   }
   //Move Vector "hull_points" to private array "_hull_points"
-  _hull_points = hull_points;
   for (int i=0;i<hull_points.size();i++){
     _hull_points.push_back(hull_points[i]);
   }
-  _GL_points = ConvexHull2DOpenGL::convertPointsCoords(_points);
-  _GL_hull_points = ConvexHull2DOpenGL::convertPointsCoords(_hull_points);
+  getPointMinMax();
+  _GL_points = convertPoints(_points);
+  _GL_hull_points = convertPoints(_hull_points);
 }
 
 ConvexHull2DOpenGL::ConvexHull2DOpenGL(vector<Point2D>& points){
   for(int i=0;i<points.size();i++){
     _points.push_back(points[i]);
   }
-  _GL_points = ConvexHull2DOpenGL::convertPointsCoords(_points);
+  getPointMinMax();
+  _GL_points = convertPoints(_points);
 }
 
 ConvexHull2DOpenGL::ConvexHull2DOpenGL(){
-  ConvexHull2DOpenGL::createWindow();
+  createWindow();
   _GL_points.resize(5);
   _GL_points[0] = {0.5, 0.0, 0.0};
   _GL_points[1] = {-0.5, 0.0, 0.0};
   _GL_points[2] = {0.0, 0.5, 0.0};
   _GL_points[3] = {0.0, -0.5, 0.0};
   _GL_points[4] = {0.0, 0.0, 0.0};
-  ConvexHull2DOpenGL::drawPoints(_GL_points);
+  drawPoints(_GL_points);
 }
 
 ConvexHull2DOpenGL::~ConvexHull2DOpenGL(){
@@ -93,57 +94,62 @@ int ConvexHull2DOpenGL::drawPoints(vector<PointGL2D>& GL_points){
 
 int ConvexHull2DOpenGL::drawHullLines(vector<PointGL2D>& GL_hull_points){
   glBegin(GL_LINES);
-  for (int i=0;i+1<GL_hull_points.size();i+=2){
+  for (int i=0;i<GL_hull_points.size();i++){
     glColor4f(_line_color.r, _line_color.g, _line_color.b, _line_color.a);
     glVertex3f(GL_hull_points[i].x, GL_hull_points[i].y, GL_hull_points[i].z);
-    glVertex3f(GL_hull_points[i+1].x, GL_hull_points[i+1].y, GL_hull_points[i+1].z);
+    if ((i+1)==GL_hull_points.size()){
+      glVertex3f(GL_hull_points[0].x, GL_hull_points[0].y, GL_hull_points[0].z);
+    }else{
+      glVertex3f(GL_hull_points[i+1].x, GL_hull_points[i+1].y, GL_hull_points[i+1].z);
+    }
   }
   glEnd();
   return 0;
 }
 
-vector<PointGL2D> ConvexHull2DOpenGL::convertPointsCoords(const vector<Point2D>& points){
+//Determines the min and max coordinates to normalize the points to (-1, - 1) range
+int ConvexHull2DOpenGL::getPointMinMax(){
   int x_min, y_min, x_max, y_max; 
-  y_min = y_max = points[0].y;
-  x_min = x_max = points[0].x;
+  y_min = y_max = _points[0].y;
+  x_min = x_max = _points[0].x;
 
-  for (int i=0;i<points.size();i++){
-    if (points[i].x<x_min){
-      x_min = points[i].x;
-    }else if (points[i].x>x_max){
-      x_max = points[i].x;
+  for (int i=0;i<_points.size();i++){
+    if (_points[i].x<x_min){
+      x_min = _points[i].x;
+    }else if (_points[i].x>x_max){
+      x_max = _points[i].x;
     } 
-    if (points[i].y<y_min){
-      y_min = points[i].y;
-    }else if (points[i].y>y_max){
-      y_max = points[i].y;
+    if (_points[i].y<y_min){
+      y_min = _points[i].y;
+    }else if (_points[i].y>y_max){
+      y_max = _points[i].y;
     } 
   }
 
   //Find new Center based on the maxes and mins
-  Point2D new_center = {0,0};
-  new_center.x = ((x_max-x_min)/2)+x_min;
-  new_center.y = ((y_max-y_min)/2)+y_min;
+  _new_center.x = ((x_max-x_min)/2)+x_min;
+  _new_center.y = ((y_max-y_min)/2)+y_min;
 
   float norm_max = 0.0f;
   //Find max distance between x_center_max and y_center_max and x_max and y_max respectivelly to use in normalization
-  float x_dist = x_max - new_center.x;
-  float y_dist = y_max - new_center.y;
-  float norm_dist;
+  float x_dist = x_max - _new_center.x;
+  float y_dist = y_max - _new_center.y;
   if (x_dist>y_dist){
-    norm_dist = x_dist;
+    _norm_dist = x_dist;
   }else{
-    norm_dist = y_dist;
+    _norm_dist = y_dist;
   }
+  return 0;
+}
 
+vector<PointGL2D> ConvexHull2DOpenGL::convertPoints(vector<Point2D>& points){
   //Convert the Points to have as new_center as the new origin and normalize them
   vector<PointGL2D> GL_points;
   for (int i=0;i<points.size();i++){
-    GLfloat x = (_norm_value*(_points[i].x - new_center.x))/norm_dist * 1.0f;
-    GLfloat y = (_norm_value*(_points[i].y - new_center.y))/norm_dist * 1.0f;
+    GLfloat x = (_norm_value*(points[i].x - _new_center.x))/_norm_dist * 1.0f;
+    GLfloat y = (_norm_value*(points[i].y - _new_center.y))/_norm_dist * 1.0f;
     GLfloat z = 0.0f;
     GL_points.push_back({x, y, z});
   }
-
   return GL_points;
 }

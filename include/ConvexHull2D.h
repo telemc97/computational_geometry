@@ -14,6 +14,10 @@ class ConvexHull2D{
   public:
   ConvexHull2D(vector<Point2D>& points); //Constructor
 
+  int jarvisAlgorithm();
+  
+  int quickHullAlgorithm();
+
   vector<Point2D> getHullPoints();
 
   private:
@@ -21,8 +25,7 @@ class ConvexHull2D{
   vector<Point2D> _points;
   vector<Point2D> _hull_points;
 
-  int pointsOrientation(Point2D& pointA, Point2D& pointB, Point2D& pointC);
+  int CW(Point2D& pointA, Point2D& pointB, Point2D& pointC);
 
-  void jarvisAlgorithm();
-
+  int quickHullFunc(Point2D& pointA, Point2D& pointB, int side);
 };

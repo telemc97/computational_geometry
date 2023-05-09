@@ -60,11 +60,17 @@ class ConvexHull2DOpenGL {
 
   int drawHullLines(vector<PointGL2D>& GL_hull_points);
 
+  vector<PointGL2D> convertPoints(vector<Point2D>& points);
+
   float _norm_value = 1.0f;
 
   Color4f _point_color = {1.0f, 1.0f, 1.0f, 1.0f};
   Color4f _line_color = {1.0f, 1.0f, 1.0f, 1.0f};
   Color4f _background_color = {0.0f, 0.0f, 0.0f, 0.0f};
+
+  int getPointMinMax();
+  Point2D _new_center = {0,0};
+  float _norm_dist;
 
   vector<Point2D> _points;
   vector<PointGL2D> _GL_points;
